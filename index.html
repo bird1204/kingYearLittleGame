@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+	<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+	    
+		<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css">
+		
+	    
+		<script src="./js/jquery-2.1.0.min.js"></script>
+		<script src="./js/bootstrap.min.js"></script>
+		<script src="./js/blocs.min.js"></script>
+		<script src="./js/lazysizes.min.js" defer></script>
+		<title>永凡永凡小遊戲</title>
+
+		<script language='javascript'>
+			var database = {
+				'player1' : ['喔','星期一猴子穿新衣','哈哈哈呵哈哈哈呵','我是鄉民','電動汽車','星期四卡毛去考試','山豬肉香腸','乾燥花','港式飲茶','時鐘','拍手','其實我也喜歡你啦','那你把手給我啊','無痕式掛鉤','柳暗花明又一村','國王的新衣','seven eleven','948794狂','至柔璟瑢詩羽永凡','承韋益祥華夏冠瑜'],
+				'player2' : ['我喜歡你','不在乎天長地久','請注意後方來車','身為北商人','唐詩三百首','說好的同學會呢','嘩啦啦下雨啦','有你們真好','給我一杯忘情水','心痛比快樂更真實','林口','我想跟著你','牽我的手好嗎','寶貝','我就是北七','今天我又長大了','嗯','台幣戰士','好想喝酒','吃得苦中苦'],
+				'player3' : ['左腳清明右腳重陽','師爺，你解釋解釋','星際大戰八是糞片','澳門首家線上賭場','現在立刻馬上','我可以用提示嗎？','爺爺泡的茶','老人喝的無糖綠','老王去夜市買香腸','愛是你愛是我']
+			}
+			$(document).ready(function(){
+				url = new URL(document.URL);			
+				if (url.searchParams.get("playerCount") == '3'){
+					$('#bloc-1 h3.statement-bloc-text.player3').show()
+				}else{
+					console.log(url.searchParams.get("playerCount"))
+					$('#bloc-1 h3.statement-bloc-text.player3').hide()
+				}
+
+				$('#bloc-2').hide()
+				$('#bloc-1 h3.statement-bloc-text').on('click', function(){
+					if (url.searchParams.get("status") == 'static'){
+						questions = database[$(this).html()]
+					}else{
+						questions = database[$(this).html()].sort(function(a, b){return 0.5 - Math.random()});
+					}
+
+					$('#bloc-1').hide()
+					$('#bloc-2 h3.statement-bloc-text').data('list', questions).data('index', '-1')
+					$('#bloc-2').show()
+				})
+
+				$('#bloc-2 h3.statement-bloc-text').on('click', function(){
+					$(this).data('index', parseInt($(this).data('index')) + 1) 
+					if(parseInt($(this).data('index')) >= 0 && parseInt($(this).data('index')) + 1 <= $(this).data('list').length ){
+						$(this).html($(this).data('list')[parseInt($(this).data('index'))])
+						$('#bloc-2 p.text-center strong').html(parseInt($(this).data('index')) + 1+'/'+$(this).data('list').length)
+					}else{
+						$(this).html('!!! 沒有題目惹，過關 !!!')
+					}
+				})
+			})
+		</script>
+	</head>
+
+	<body>
+		<!-- Main container -->
+		<div class="page-container">    
+			<!-- bloc-0 -->
+			<div class="bloc l-bloc bgc-white" id="bloc-0">
+				<div class="container bloc-sm">
+					<nav class="navbar row">
+						<div class="navbar-header">
+							<a class="navbar-brand" href="index.html?status=static"><img src="img/logo.png" alt="logo" />永凡永凡小遊戲</a>
+							<button id="nav-toggle" type="button" class="ui-navbar-toggle navbar-toggle" data-toggle="collapse" data-target=".navbar-1">
+								<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="collapse navbar-collapse navbar-1">
+							<ul class="site-navigation nav navbar-nav ">
+								<li>
+									<a href="index.html?playerCount=3">3</a>
+								</li>
+								<li>
+									<a href="index.html">2</a>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</div>
+			<!-- bloc-0 END -->
+
+			<!-- bloc-1 -->
+			<div class="bloc bgc-white l-bloc" id="bloc-1">
+				<div class="container bloc-lg">
+					<div class="row">
+						<div class="col-xs-12 col-md-8 col-md-offset-2">
+							<h3 class="statement-bloc-text">player1</h3>
+							<h3 class="statement-bloc-text">player2</h3>
+							<h3 class="statement-bloc-text player3">player3</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- bloc-1 END -->
+
+			<!-- bloc-2 -->
+			<div class="bloc bgc-white l-bloc" id="bloc-2">
+				<div class="container bloc-lg">
+					<div class="row">
+						<div class="col-xs-12 col-md-8 col-md-offset-2">
+							<h3 class="statement-bloc-text" data-index='0' data-list='' style="line-height:90px;font-size:85px" >點擊開始</h3>
+							<p class="text-center">
+								<strong>???/???</strong>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- bloc-1 END -->
+
+			<!-- ScrollToTop Button -->
+			<a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1')"><span class="fa fa-chevron-up"></span></a>
+			<!-- ScrollToTop Button END-->
+		</div>
+		<!-- Main container END -->
+	</body>
+</html>
